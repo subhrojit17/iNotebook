@@ -1,7 +1,12 @@
 const express = require("express");
 const User = require("../models/User");
 const router = express.Router();
+const bycrpt = require("bcryptjs");
+var jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
+const dotenv = require("dotenv");
+
+const secretKey = process.env.JWT_SECRET;
 
 // Create a User using: POST "/api/auth/creatUser". Doesn't require Auth
 router.post(
@@ -22,21 +27,32 @@ router.post(
     //Check whether the user with this email exists already
     try {
       let user = await User.findOne({ email: req.body.email });
-
       if (user) {
         return res
           .status(400)
           .json({ error: "Sorry, a user with this email already exits!" });
       }
+      const SALT = await bycrpt.genSalt(10);
+      secPassword = await bycrpt.hash(req.body.password, SALT);
+      // Create a new user
       user = await User.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: secPassword,
       });
-      res.json(user);
-    } catch (err) {}
-    console.error(err.message);
-    return res.status(500).send("Some error occured");
+      const data = {
+        user: {
+          id: user.id,
+        },
+      };
+      const authToken = jwt.sign(data, secretKey);
+
+      // res.json(user);
+      res.json({ authToken });
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send("Some error occured");
+    }
   }
 );
 
