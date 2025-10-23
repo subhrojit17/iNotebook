@@ -17,5 +17,5 @@ app.get("/", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port} `);
+  console.log(`iNotebook api listening at http://localhost:${port} `);
 });
