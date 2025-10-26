@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           iNotebook
@@ -19,7 +19,7 @@ const Navbar = () => {
         </button>
         <div
           className="offcanvas offcanvas-end text-bg-dark"
-          tabindex="-1"
+          tabIndex="-1"
           id="offcanvasDarkNavbar"
           aria-labelledby="offcanvasDarkNavbarLabel"
         >

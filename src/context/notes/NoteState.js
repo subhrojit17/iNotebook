@@ -23,6 +23,26 @@ const NoteState = (props) => {
       date: "2025-10-19T09:20:39.513Z",
       __v: 0,
     },
+    {
+      _id: "68f4ad6717186ed51456bd841",
+      user: "68f49cf6fd74c51a8b15aadd",
+      title: "Champion of Dreams",
+      description:
+        "From Rosario to the stars — leading Argentina to World Cup glory in 2022 was the fulfillment of a lifelong dream. Every goal, every battle, and every tear shaped this moment — lifting the trophy for my country after 36 years of waiting. Football gave me everything, and this was my way of giving back to Argentina.",
+      tag: "WorldCup2022, Argentina, GoldenBall, Legacy, GOAT",
+      date: "2025-10-19T09:20:39.513Z",
+      __v: 0,
+    },
+    {
+      _id: "68f4ad6717186ed51456bd842",
+      user: "68f49cf6fd74c51a8b15aadd",
+      title: "Champion of Dreams",
+      description:
+        "From Rosario to the stars — leading Argentina to World Cup glory in 2022 was the fulfillment of a lifelong dream. Every goal, every battle, and every tear shaped this moment — lifting the trophy for my country after 36 years of waiting. Football gave me everything, and this was my way of giving back to Argentina.",
+      tag: "WorldCup2022, Argentina, GoldenBall, Legacy, GOAT",
+      date: "2025-10-19T09:20:39.513Z",
+      __v: 0,
+    },
   ];
   const [notes, setNotes] = useState(notesInitial);
 
