@@ -1,56 +1,51 @@
 import NoteContext from "./NoteContext";
 import { useState } from "react";
+import axios from "axios";
 
 const NoteState = (props) => {
-  const notesInitial = [
-    {
-      _id: "68f51fbcd984dd7a5c453e6b",
-      user: "68f51f2dd984dd7a5c453e68",
-      title: "My Journey in Football",
-      description:
-        "From a young boy in Madeira with big dreams to becoming one of the greatest footballers in history, my journey has been about hard work, dedication, and passion. I've had the honor to win 5 Ballon d'Or awards and score nearly 950 goals, but more importantly, I've always strived to give my best for every team I represent. Winning league titles, Champions Leagues, and the European Championship with Portugal are memories I cherish, but inspiring others and pushing my limits every day is what drives me.",
-      tag: "my story, football career, passion, hard work, Ronaldo",
-      date: "2025-10-19T17:28:28.879Z",
-      __v: 0,
-    },
-    {
-      _id: "68f4ad6717186ed51456bd84",
-      user: "68f49cf6fd74c51a8b15aadd",
-      title: "Champion of Dreams",
-      description:
-        "From Rosario to the stars — leading Argentina to World Cup glory in 2022 was the fulfillment of a lifelong dream. Every goal, every battle, and every tear shaped this moment — lifting the trophy for my country after 36 years of waiting. Football gave me everything, and this was my way of giving back to Argentina.",
-      tag: "WorldCup2022, Argentina, GoldenBall, Legacy, GOAT",
-      date: "2025-10-19T09:20:39.513Z",
-      __v: 0,
-    },
-    {
-      _id: "68f4ad6717186ed51456bd841",
-      user: "68f49cf6fd74c51a8b15aadd",
-      title: "Champion of Dreams",
-      description:
-        "From Rosario to the stars — leading Argentina to World Cup glory in 2022 was the fulfillment of a lifelong dream. Every goal, every battle, and every tear shaped this moment — lifting the trophy for my country after 36 years of waiting. Football gave me everything, and this was my way of giving back to Argentina.",
-      tag: "WorldCup2022, Argentina, GoldenBall, Legacy, GOAT",
-      date: "2025-10-19T09:20:39.513Z",
-      __v: 0,
-    },
-    {
-      _id: "68f4ad6717186ed51456bd842",
-      user: "68f49cf6fd74c51a8b15aadd",
-      title: "Champion of Dreams",
-      description:
-        "From Rosario to the stars — leading Argentina to World Cup glory in 2022 was the fulfillment of a lifelong dream. Every goal, every battle, and every tear shaped this moment — lifting the trophy for my country after 36 years of waiting. Football gave me everything, and this was my way of giving back to Argentina.",
-      tag: "WorldCup2022, Argentina, GoldenBall, Legacy, GOAT",
-      date: "2025-10-19T09:20:39.513Z",
-      __v: 0,
-    },
-  ];
+  const host = "http://localhost:5000";
+  const notesInitial = [];
   const [notes, setNotes] = useState(notesInitial);
 
+  //  Get All Notes
+  const getNotes = async () => {
+    try {
+      const response = await axios.get(
+        `${host}/api/notes/fetchAllNotes`,
+        {
+        headers: {
+          "auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhmNDljZjZmZDc0YzUxYThiMTVhYWRkIn0sImlhdCI6MTc2MTQ5MDA2OH0.Ps7qPuoPe6RUqD9h-__fxgsVOPMYrxxMAcTMmcZEfwk",
+          "Content-Type": "application/json",
+        },
+      });
+      setNotes(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Add a Note
-  const addNote = (title, description, tag) => {
+  const addNote = async (title, description, tag) => {
     // TODO: API Call
+    try {
+      const response = await axios.post(
+        `${host}/api/notes/addNote`,
+        { title: title, description: description, tag: tag },
+        {
+          headers: {
+            "auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhmNDljZjZmZDc0YzUxYThiMTVhYWRkIn0sImlhdCI6MTc2MTQ5MDA2OH0.Ps7qPuoPe6RUqD9h-__fxgsVOPMYrxxMAcTMmcZEfwk",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(`Added new note ${response} successfully!`);
+    } catch (error) {
+      console.error(error);
+    }
     console.log("Adding a new Note");
-    
+
     const note = {
       _id: "68f4ad6717186ed51456bd842new",
       user: "68f49cf6fd74c51a8b15aadd",
@@ -63,19 +58,66 @@ const NoteState = (props) => {
     setNotes(notes.concat(note));
   };
   // Delete a Note
-  const deleteNote = (id) => {
+  const deleteNote = async (id) => {
     // TODO: API Call
+    try {
+      const response = await axios.delete(
+        `${host}/api/notes/deleteNote/${id}`,
+        {
+          headers: {
+            "auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhmNDljZjZmZDc0YzUxYThiMTVhYWRkIn0sImlhdCI6MTc2MTQ5MDA2OH0.Ps7qPuoPe6RUqD9h-__fxgsVOPMYrxxMAcTMmcZEfwk",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(`Deleted ${response.data} successfully!`);
+    } catch (error) {
+      console.error(error);
+    }
     console.log(`Deleting the note with id:${id}`);
-    const newNotes = notes.filter((note)=>{ return note._id!==id})
+    const newNotes = notes.filter((note) => {
+      return note._id !== id;
+    });
     setNotes(newNotes);
   };
-  
+
   // Edit a Note
-  const editNote = () => {};
-  // TODO: API Call
+  const editNote = async (id, title, description, tag) => {
+    // API Call
+    try {
+      const response = await axios.put(
+        `${host}/api/notes/editNote/${id}`,
+        { title: title, description: description, tag: tag },
+        {
+          headers: {
+            "auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhmNDljZjZmZDc0YzUxYThiMTVhYWRkIn0sImlhdCI6MTc2MTQ5MDA2OH0.Ps7qPuoPe6RUqD9h-__fxgsVOPMYrxxMAcTMmcZEfwk",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(`Updated note to ${response.data} successfully!`);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // Logic to edit in client
+    console.log(`Editing Note with id: ${id}`);
+    for (let index = 0; index < notes.length; index++) {
+      const element = notes[index];
+      if (element.id === id) {
+        element.title = title;
+        element.description = description;
+        element.tag = tag;
+      }
+    }
+  };
 
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote }}>
+    <NoteContext.Provider
+      value={{ notes, getNotes, addNote, deleteNote, editNote }}
+    >
       {props.children}
     </NoteContext.Provider>
   );
