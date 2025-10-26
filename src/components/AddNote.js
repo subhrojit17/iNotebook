@@ -68,7 +68,7 @@ const AddNote = () => {
           onClick={handleClick}
           disabled={note.title.length < 3 || note.description.length < 5}
         >
-          Submit
+          Add Note
         </button>
       </form>
     </div>
