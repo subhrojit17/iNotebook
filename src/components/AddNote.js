@@ -7,7 +7,7 @@ const AddNote = () => {
   const [note, setNote] = useState({
     title: "",
     description: "",
-    tag: "default",
+    tag: "",
   });
   const handleClick = (e) => {
     e.preventDefault();
@@ -40,7 +40,7 @@ const AddNote = () => {
           <label htmlFor="description" className="form-label">
             Description
           </label>
-          <textarea
+          <input
             name="description"
             value={note.description}
             className="form-control"
