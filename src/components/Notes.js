@@ -4,8 +4,13 @@ import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 const Notes = () => {
   const context = useContext(NoteContext);
-  const { notes, getNotes } = context;
-  const [note, setNote] = useState({ etitle: "", edescription: "", etag: "" });
+  const { notes, getNotes, editNote } = context;
+  const [note, setNote] = useState({
+    id: "",
+    etitle: "",
+    edescription: "",
+    etag: "",
+  });
   useEffect(() => {
     getNotes();
     // eslint-disable-next-line
@@ -13,18 +18,29 @@ const Notes = () => {
   const updateNote = (currentNote) => {
     ref.current.click();
     setNote({
+      id: currentNote._id,
       etitle: currentNote.title,
       edescription: currentNote.description,
       etag: currentNote.tag,
     });
   };
   const ref = useRef(null);
-  const handleClick = (e) => {
-    console.log("Updating your note..", note);
-
+  const refClose = useRef(null);
+  const handleClick = async (e) => {
     e.preventDefault();
-    // reset form after adding
-    // setNote({ title: "", description: "", tag: "" });
+    console.log("Updating your note..", note);
+    const success = await editNote(note.id, note.etitle, note.edescription, note.etag);
+    if (success) {
+      refClose.current.click();
+      setNote({
+        id: "",
+        etitle: "",
+        edescription: "",
+        etag: ""
+      });
+    } else {
+      alert("Failed to update note");
+    }
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
@@ -34,11 +50,11 @@ const Notes = () => {
       <AddNote />
 
       <button
+        ref={ref}
         type="button"
         className="btn btn-primary d-none"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
-        ref={ref}
       >
         Launch static backdrop modal
       </button>
@@ -111,6 +127,7 @@ const Notes = () => {
             </div>
             <div className="modal-footer">
               <button
+                ref={refClose}
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"

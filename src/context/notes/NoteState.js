@@ -10,9 +10,7 @@ const NoteState = (props) => {
   //  Get All Notes
   const getNotes = async () => {
     try {
-      const response = await axios.get(
-        `${host}/api/notes/fetchAllNotes`,
-        {
+      const response = await axios.get(`${host}/api/notes/fetchAllNotes`, {
         headers: {
           "auth-token":
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhmNDljZjZmZDc0YzUxYThiMTVhYWRkIn0sImlhdCI6MTc2MTQ5MDA2OH0.Ps7qPuoPe6RUqD9h-__fxgsVOPMYrxxMAcTMmcZEfwk",
@@ -98,19 +96,23 @@ const NoteState = (props) => {
         }
       );
       console.log(`Updated note to ${response.data} successfully!`);
+      // After successful API call, update the state
+      const newNotes = notes.map((note) => {
+        if (note._id === id) {
+          return {
+            ...note,
+            title: title,
+            description: description,
+            tag: tag
+          };
+        }
+        return note;
+      });
+      setNotes(newNotes);
+      return true;
     } catch (error) {
-      console.error(error);
-    }
-
-    // Logic to edit in client
-    console.log(`Editing Note with id: ${id}`);
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if (element.id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
-      }
+      console.error("Error updating note:", error);
+      return false;
     }
   };
 
