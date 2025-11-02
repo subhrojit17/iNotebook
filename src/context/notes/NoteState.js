@@ -38,22 +38,13 @@ const NoteState = (props) => {
           },
         }
       );
-      console.log(`Added new note ${response} successfully!`);
+      setNotes(notes.concat(response.data));
+      console.log("Adding a new Note");
+      console.log(`Added new note ${response.data.title} successfully!`);
     } catch (error) {
       console.error(error);
     }
-    console.log("Adding a new Note");
 
-    const note = {
-      _id: "68f4ad6717186ed51456bd842new",
-      user: "68f49cf6fd74c51a8b15aadd",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2025-10-19T09:20:39.513Z",
-      __v: 0,
-    };
-    setNotes(notes.concat(note));
   };
   // Delete a Note
   const deleteNote = async (id) => {
@@ -69,11 +60,10 @@ const NoteState = (props) => {
           },
         }
       );
-      console.log(`Deleted ${response.data} successfully!`);
     } catch (error) {
       console.error(error);
     }
-    console.log(`Deleting the note with id:${id}`);
+    console.log(`Note Deleted successfully!`);
     const newNotes = notes.filter((note) => {
       return note._id !== id;
     });
@@ -95,7 +85,7 @@ const NoteState = (props) => {
           },
         }
       );
-      console.log(`Updated note to ${response.data} successfully!`);
+      console.log(`Updated note to ${response.data.title} successfully!`);
       // After successful API call, update the state
       const newNotes = notes.map((note) => {
         if (note._id === id) {
@@ -103,7 +93,7 @@ const NoteState = (props) => {
             ...note,
             title: title,
             description: description,
-            tag: tag
+            tag: tag,
           };
         }
         return note;

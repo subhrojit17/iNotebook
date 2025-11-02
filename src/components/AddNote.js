@@ -12,7 +12,7 @@ const AddNote = () => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
     // reset form after adding
-    setNote({ title: "", description: "", tag: "default" });
+    setNote({ title: "", description: "", tag: "" });
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
@@ -33,6 +33,7 @@ const AddNote = () => {
             id="title"
             aria-describedby="title"
             onChange={onChange}
+            minLength={5}
           />
         </div>
         <div className="mb-3">
@@ -46,6 +47,7 @@ const AddNote = () => {
             id="description"
             rows={3}
             onChange={onChange}
+            required
           />
         </div>
         <div className="mb-3">

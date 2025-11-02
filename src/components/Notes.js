@@ -29,14 +29,19 @@ const Notes = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     console.log("Updating your note..", note);
-    const success = await editNote(note.id, note.etitle, note.edescription, note.etag);
+    const success = await editNote(
+      note.id,
+      note.etitle,
+      note.edescription,
+      note.etag
+    );
     if (success) {
       refClose.current.click();
       setNote({
         id: "",
         etitle: "",
         edescription: "",
-        etag: ""
+        etag: "",
       });
     } else {
       alert("Failed to update note");
@@ -95,6 +100,8 @@ const Notes = () => {
                     id="etitle"
                     aria-describedby="title"
                     onChange={onChange}
+                    minLength={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -108,6 +115,8 @@ const Notes = () => {
                     id="edescription"
                     rows={3}
                     onChange={onChange}
+                    minLength={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -147,6 +156,9 @@ const Notes = () => {
       </div>
       <div className="row my-3">
         <h2>Your Notes</h2>
+        <div className="container my-2 mx-1">
+          {notes.length === 0 && "No notes to display !"}
+        </div>
         {notes.map((note) => {
           return (
             <NoteItem key={note._id} updateNote={updateNote} note={note} />

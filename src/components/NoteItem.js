@@ -23,7 +23,10 @@ const NoteItem = (props) => {
                 deleteNote(note._id);
               }}
             ></i>
-            <i className="fa-solid fa-file-pen btn btn-tertiary mx-2" onClick={()=>updateNote(note)}></i>
+            <i
+              className="fa-solid fa-file-pen btn btn-tertiary mx-2"
+              onClick={() => updateNote(note)}
+            ></i>
           </div>
 
           {/* <a href="#" className="btn btn-primary">
