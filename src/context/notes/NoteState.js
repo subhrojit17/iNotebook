@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000";
+  const host = process.env.REACT_APP_LOCAL_HOST;
   const notesInitial = [];
   const [notes, setNotes] = useState(notesInitial);
 
@@ -12,8 +12,6 @@ const NoteState = (props) => {
     try {
       const response = await axios.get(`${host}/api/notes/fetchAllNotes`, {
         headers: {
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhmNDljZjZmZDc0YzUxYThiMTVhYWRkIn0sImlhdCI6MTc2MTQ5MDA2OH0.Ps7qPuoPe6RUqD9h-__fxgsVOPMYrxxMAcTMmcZEfwk",
           "Content-Type": "application/json",
         },
       });
@@ -44,7 +42,6 @@ const NoteState = (props) => {
     } catch (error) {
       console.error(error);
     }
-
   };
   // Delete a Note
   const deleteNote = async (id) => {
