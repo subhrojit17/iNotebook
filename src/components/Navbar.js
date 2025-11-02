@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand mx-3" to="/">
+        <Link className="navbar-brand mx-3" to="/home">
           iNotebook
         </Link>
         <NavLink to="/about" style={aboutLinkStyles}>

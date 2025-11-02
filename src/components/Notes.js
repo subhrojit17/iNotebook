@@ -74,7 +74,7 @@ const Notes = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog">
-          <div className="modal-content">
+          <div className="modal-content bg-light border border-2 rounded shadow-sm p-3">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="staticBackdropLabel">
                 Edit Note
@@ -87,9 +87,9 @@ const Notes = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <form className="my-3 ">
+              <form className="my-3">
                 <div className="mb-3">
-                  <label htmlFor="title" className="form-label">
+                  <label htmlFor="etitle" className="form-label">
                     Title
                   </label>
                   <input
@@ -102,13 +102,14 @@ const Notes = () => {
                     onChange={onChange}
                     minLength={5}
                     required
+                    placeholder="Enter note title"
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="description" className="form-label">
+                  <label htmlFor="edescription" className="form-label">
                     Description
                   </label>
-                  <input
+                  <textarea
                     name="edescription"
                     value={note.edescription}
                     className="form-control"
@@ -117,10 +118,11 @@ const Notes = () => {
                     onChange={onChange}
                     minLength={5}
                     required
-                  />
+                    placeholder="Enter note description"
+                  ></textarea>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="tag" className="form-label">
+                  <label htmlFor="etag" className="form-label">
                     Tag
                   </label>
                   <input
@@ -130,6 +132,7 @@ const Notes = () => {
                     className="form-control"
                     id="etag"
                     onChange={onChange}
+                    placeholder="Tag (optional)"
                   />
                 </div>
               </form>
@@ -147,6 +150,9 @@ const Notes = () => {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleClick}
+                disabled={
+                  note.etitle.length < 5 || note.edescription.length < 5
+                }
               >
                 Update Note
               </button>
@@ -154,16 +160,27 @@ const Notes = () => {
           </div>
         </div>
       </div>
-      <div className="row my-3">
+      <div className="row my-1">
         <h2>Your Notes</h2>
-        <div className="container my-2 mx-1">
-          {notes.length === 0 && "No notes to display !"}
-        </div>
-        {notes.map((note) => {
-          return (
-            <NoteItem key={note._id} updateNote={updateNote} note={note} />
-          );
-        })}
+        {notes.length === 0 ? (
+          <div
+            className="d-flex justify-content-center align-items-center text-secondary my-4 p-4 border border-dashed rounded"
+            style={{
+              minHeight: "150px",
+              fontSize: "1.25rem",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <span style={{ marginRight: "8px", fontSize: "1.5rem" }}>🗒️</span>
+            No notes to display!
+          </div>
+        ) : (
+          notes.map((note) => (
+            <div key={note._id}>
+              <NoteItem updateNote={updateNote} note={note} />
+            </div>
+          ))
+        )}
       </div>
     </>
   );
