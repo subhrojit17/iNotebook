@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const host = process.env.REACT_APP_LOCAL_HOST;
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-const navigate = useNavigate()
+let navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -15,8 +15,6 @@ const navigate = useNavigate()
         { email: credentials.email, password: credentials.password },
         {
           headers: {
-            "auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhmNDljZjZmZDc0YzUxYThiMTVhYWRkIn0sImlhdCI6MTc2MTQ5MDA2OH0.Ps7qPuoPe6RUqD9h-__fxgsVOPMYrxxMAcTMmcZEfwk",
             "Content-Type": "application/json",
           },
         }
